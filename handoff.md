@@ -2,40 +2,40 @@
 Build a real-time, closed-loop biophysical Drosophila connectome simulation and telemetry station embodying Papers 01, 02, and 03 under the Cyberdelia Industrial Minimalist specifications in DESIGN.md, verified with 100% test coverage across all files and metrics.
 
 # Current state
-The simulation station is completely built, hardened, and verified with universal 100% test coverage across all 16 source files (100% Statements, 100% Branches, 100% Functions, 100% Lines) across 12 test suites and 68 automated tests. Production build compiled cleanly into dist/ in 112ms. Full adherence to DESIGN.md (pure pitch black canvas #000000, 1px geometric borders, JetBrains Mono typography, zero emojis, zero em dashes).
+The simulation station is completely built, hardened, and verified with universal 100% test coverage across all 16 source files (100% Statements, 100% Branches, 100% Functions, 100% Lines) across 12 test suites and 68 automated tests. Production build compiled cleanly into dist/ in 112ms. Relocated to `/Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim` and published to GitHub at `https://github.com/ADM1SH/fly-connectome-sim`. Full adherence to DESIGN.md (pure pitch black canvas #000000, 1px geometric borders, JetBrains Mono typography, zero emojis, zero em dashes).
 
 # Active files
-- fly-connectome-sim/index.html
-- fly-connectome-sim/src/main.ts
-- fly-connectome-sim/src/neural/connectome_graph.ts
-- fly-connectome-sim/src/neural/lif_engine.ts
-- fly-connectome-sim/src/neural/types.ts
-- fly-connectome-sim/src/neural/neuromodulation.ts
-- fly-connectome-sim/src/physics/arena.ts
-- fly-connectome-sim/src/physics/fly_agent.ts
-- fly-connectome-sim/src/physics/optics.ts
-- fly-connectome-sim/src/physics/chemistry.ts
-- fly-connectome-sim/src/audio/song_synthesizer.ts
-- fly-connectome-sim/src/design/tokens.ts
-- fly-connectome-sim/src/ui/components.ts
-- fly-connectome-sim/src/ui/arena_canvas.ts
-- fly-connectome-sim/src/ui/vision_canvas.ts
-- fly-connectome-sim/src/ui/raster_plot.ts
-- fly-connectome-sim/src/ui/graph_canvas.ts
-- fly-connectome-sim/tests/lif_engine.test.ts
-- fly-connectome-sim/tests/connectome.test.ts
-- fly-connectome-sim/tests/optics.test.ts
-- fly-connectome-sim/tests/behavior.test.ts
-- fly-connectome-sim/tests/fly_agent.test.ts
-- fly-connectome-sim/tests/chemistry.test.ts
-- fly-connectome-sim/tests/arena.test.ts
-- fly-connectome-sim/tests/neuromodulation.test.ts
-- fly-connectome-sim/tests/song_synthesizer.test.ts
-- fly-connectome-sim/tests/ui_components.test.ts
-- fly-connectome-sim/tests/canvas_renderers.test.ts
-- fly-connectome-sim/tests/main_controller.test.ts
-- fly-connectome-sim/README.md
-- handoff.md
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/index.html
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/main.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/neural/connectome_graph.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/neural/lif_engine.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/neural/types.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/neural/neuromodulation.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/physics/arena.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/physics/fly_agent.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/physics/optics.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/physics/chemistry.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/audio/song_synthesizer.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/design/tokens.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/ui/components.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/ui/arena_canvas.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/ui/vision_canvas.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/ui/raster_plot.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/src/ui/graph_canvas.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/lif_engine.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/connectome.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/optics.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/behavior.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/fly_agent.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/chemistry.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/arena.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/neuromodulation.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/song_synthesizer.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/ui_components.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/canvas_renderers.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/tests/main_controller.test.ts
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/README.md
+- /Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim/handoff.md
 
 # Changes made
 - Expanded test coverage across all logic tiers to reach universal 100% statement, branch, function, and line coverage.
@@ -46,7 +46,11 @@ The simulation station is completely built, hardened, and verified with universa
 - Added main loop frame delta capping, DOMContentLoaded bootstrap, all sensory feature injection channels, and edge case fallbacks in main_controller.test.ts.
 - Added null context error assertions, pheromone heatmap rendering, luminance threshold styling, and buffer shift tests in canvas_renderers.test.ts.
 - Added missing element and non-matching child element tests in ui_components.test.ts.
-- Verified production compilation (npm run build) with 0 errors (13.98 kB HTML, 46.64 kB JS bundle).
+- Created .gitignore and updated README.md with 68-test 100% coverage report.
+- Migrated entire project and research notes to `/Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim`.
+- Initialized git, committed all source and test modules, and created remote repository `ADM1SH/fly-connectome-sim` on GitHub.
+- Pushed main branch to GitHub tracking origin/main.
+- Verified clean build (npm run build) and all 68 tests passing in new location.
 
 # Failed attempts
 - Initial build error caused by variable starting with digit (5htSlider): resolved by renaming to serotoninSlider.
@@ -56,4 +60,5 @@ The simulation station is completely built, hardened, and verified with universa
 - Canvas constructor error assertions originally expected not.toThrow() when null: resolved by expecting toThrow("Failed to get 2D rendering context").
 
 # Next steps
-- Run `npm run dev` in `fly-connectome-sim` to launch the local live telemetry server in a web browser.
+- Run `npm run dev` in `/Users/adamanwar/Desktop/Coding Projects/fly-connectome-sim` to launch the local live telemetry server in a web browser.
+- Repository is accessible online at `https://github.com/ADM1SH/fly-connectome-sim`.
