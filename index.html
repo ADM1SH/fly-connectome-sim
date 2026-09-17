@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drosophila Connectome Telemetry Station</title>
+    <style>
+        @font-face {
+            font-family: 'JetBrains Mono';
+            src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'JetBrains Mono';
+            src: url('/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #000000;
+            color: #EDEDED;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #262933;
+            padding-bottom: 16px;
+        }
+
+        .brand-title {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: #EDEDED;
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #8A909E;
+            margin-top: 2px;
+        }
+
+        .status-badge {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            background-color: #002B11;
+            color: #66FFA3;
+            border: 1px solid #00FF66;
+            padding: 4px 8px;
+            border-radius: 2px;
+        }
+
+        /* Metric Ribbon */
+        .metric-ribbon {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+
+        .metric-card {
+            background-color: #0A0A0C;
+            border: 1px solid #1A1D24;
+            border-radius: 4px;
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .label-caps {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #8A909E;
+        }
+
+        .metric-value-row {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #EDEDED;
+        }
+
+        .metric-unit {
+            font-size: 11px;
+            color: #8A909E;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 600px 1fr;
+            gap: 16px;
+        }
+
+        .panel {
+            background-color: #0A0A0C;
+            border: 1px solid #1A1D24;
+            border-radius: 4px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1A1D24;
+            padding-bottom: 8px;
+        }
+
+        .panel-title {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #EDEDED;
+        }
+
+        .canvas-frame {
+            border: 1px solid #262933;
+            background-color: #000000;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        /* Controls */
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .btn {
+            background-color: #000000;
+            border: 1px solid #262933;
+            color: #EDEDED;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: border-color 0.15s, background-color 0.15s;
+            text-align: center;
+        }
+
+        .btn:hover {
+            border-color: #00FF66;
+            color: #00FF66;
+        }
+
+        .btn:active {
+            background-color: #121215;
+        }
+
+        .btn-primary {
+            background-color: #00FF66;
+            color: #000000;
+            border: 1px solid #00FF66;
+        }
+
+        .btn-primary:hover {
+            background-color: #66FFA3;
+            border-color: #66FFA3;
+            color: #000000;
+        }
+
+        .btn-danger {
+            background-color: #000000;
+            border: 1px solid #FF334B;
+            color: #FF334B;
+        }
+
+        .btn-danger:hover {
+            background-color: #3D000A;
+            color: #FFA8B3;
+        }
+
+        /* Sliders */
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .slider-label-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #8A909E;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            background: #262933;
+            border-radius: 2px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: #EDEDED;
+            border: 1px solid #000000;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        select {
+            background-color: #050505;
+            border: 1px solid #262933;
+            color: #EDEDED;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            outline: none;
+            width: 100%;
+        }
+
+        select:focus {
+            border-color: #00FF66;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header>
+            <div>
+                <div class="brand-title">DROSOPHILA CONNECTOME EMBODIMENT ENGINE</div>
+                <div class="brand-subtitle">BIOPHYSICAL CLOSED-LOOP NEURAL CIRCUITRY (PAPERS 01, 02, 03)</div>
+            </div>
+            <div id="hud-system-status" class="status-badge">EXPLORATORY FORAGING</div>
+        </header>
+
+        <!-- Metric Ribbon -->
+        <div class="metric-ribbon">
+            <div id="hud-network-rate" class="metric-card">
+                <span class="label-caps">NETWORK SPIKE FLUX</span>
+                <div class="metric-value-row">
+                    <span class="metric-value">0</span>
+                    <span class="metric-unit">spk/s</span>
+                </div>
+            </div>
+            <div id="hud-p1-rate" class="metric-card">
+                <span class="label-caps">P1 COURTSHIP HUB</span>
+                <div class="metric-value-row">
+                    <span class="metric-value">0.0</span>
+                    <span class="metric-unit">Hz</span>
+                </div>
+            </div>
+            <div id="hud-pip10-rate" class="metric-card">
+                <span class="label-caps">pIP10 WING SONG</span>
+                <div class="metric-value-row">
+                    <span class="metric-value">0.0</span>
+                    <span class="metric-unit">Hz</span>
+                </div>
+            </div>
+            <div id="hud-gf-rate" class="metric-card">
+                <span class="label-caps">GIANT FIBER ESCAPE</span>
+                <div class="metric-value-row">
+                    <span class="metric-value">0.0</span>
+                    <span class="metric-unit">Hz</span>
+                </div>
+            </div>
+            <div id="hud-courtship-time" class="metric-card">
+                <span class="label-caps">COURTSHIP DURATION</span>
+                <div class="metric-value-row">
+                    <span class="metric-value">0.0s</span>
+                    <span class="metric-unit">cumulative</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="main-grid">
+            <!-- Left Column: Arena and Vision -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">PHYSICAL PETRI ARENA (60MM DIAMETER)</span>
+                        <span class="label-caps">CLICK ARENA TO ADD SUCROSE</span>
+                    </div>
+                    <div class="canvas-frame">
+                        <canvas id="arena-canvas" width="568" height="568"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">COMPOUND EYE VISION SENSOR</span>
+                        <span class="label-caps">72 OMMATIDIAL CHANNELS</span>
+                    </div>
+                    <div class="canvas-frame">
+                        <canvas id="vision-canvas" width="568" height="110"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Neural Telemetry, Graph, Controls -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">SPIKE RASTER & MEMBRANE VOLTAGE OSCILLOSCOPE</span>
+                        <span class="label-caps">REAL-TIME LIF DYNAMICS</span>
+                    </div>
+                    <div class="canvas-frame">
+                        <canvas id="raster-canvas" width="760" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">CONNECTOME SYNAPTIC GRAPH</span>
+                        <span class="label-caps">CLICK NODE TO STIMULATE</span>
+                    </div>
+                    <div class="canvas-frame">
+                        <canvas id="graph-canvas" width="760" height="270"></canvas>
+                    </div>
+                </div>
+
+                <!-- Command & Control Console -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">OPTOGENETIC & MODULATORY CONTROLS</span>
+                        <span class="label-caps">CYBERDELIA CONSOLE</span>
+                    </div>
+
+                    <div class="controls-grid">
+                        <button id="btn-optogenetic-p1" class="btn btn-primary">OPTOGENETIC: STIMULATE P1 HUB</button>
+                        <button id="btn-optogenetic-gf" class="btn btn-danger">OPTOGENETIC: STIMULATE GIANT FIBER</button>
+                        <button id="btn-trigger-looming" class="btn btn-danger">TRIGGER LOOMING PREDATOR</button>
+                        <button id="btn-toggle-audio" class="btn">AUDIO: MUTED (CLICK TO UNMUTE)</button>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+                        <span class="label-caps">NEUROMODULATION PRESETS</span>
+                        <select id="select-preset"></select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 6px;">
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span>DOPAMINE (AROUSAL)</span>
+                                <span id="disp-dopamine">1.0x</span>
+                            </div>
+                            <input id="slider-dopamine" type="range" min="0.0" max="3.0" step="0.1" value="1.0">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span>OCTOPAMINE (ALARM)</span>
+                                <span id="disp-octopamine">1.0x</span>
+                            </div>
+                            <input id="slider-octopamine" type="range" min="0.0" max="3.0" step="0.1" value="1.0">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label-row">
+                                <span>SEROTONIN (SATIETY)</span>
+                                <span id="disp-serotonin">1.0x</span>
+                            </div>
+                            <input id="slider-serotonin" type="range" min="0.0" max="3.0" step="0.1" value="1.0">
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
+                        <button id="btn-reset-sim" class="btn">RESET SIMULATION</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
